@@ -25,6 +25,11 @@ public class Slides : NetworkBehaviour
         {
             _uiSlide = Math.Min(Math.Max(value, 0), slideTextures.Length - 1);
             rawImage.texture = slideTextures[_uiSlide];
+
+            if (isServer)
+            {
+                currentSlide = _uiSlide;
+            }
         }
     }
 
@@ -81,6 +86,11 @@ public class Slides : NetworkBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            uiOpen = !uiOpen;
+        }
+        
         if (Player.localPlayer == null)
         {
             return;
