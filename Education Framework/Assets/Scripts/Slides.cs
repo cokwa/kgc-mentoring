@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
-public class Slides : NetworkBehaviour
+public class Slides : MonoBehaviour
 {
     public Texture[] slideTextures;
 
@@ -26,10 +26,10 @@ public class Slides : NetworkBehaviour
             _uiSlide = Math.Min(Math.Max(value, 0), slideTextures.Length - 1);
             rawImage.texture = slideTextures[_uiSlide];
 
-            if (isServer)
-            {
-                currentSlide = _uiSlide;
-            }
+            //if (isServer)
+            //{
+            //    currentSlide = _uiSlide;
+            //}
         }
     }
 
@@ -43,7 +43,7 @@ public class Slides : NetworkBehaviour
         set
         {
             rawImage.gameObject.SetActive(value);
-            Player.localPlayer.controlsCamera = !value;
+            PlayerManager.localPlayer.controlsCamera = !value;
 
             if (value)
             {
@@ -52,10 +52,9 @@ public class Slides : NetworkBehaviour
         }
     }
 
-    [NonSerialized]
-    public NetworkIdentity networkIdentity;
+    //[NonSerialized]
+    //public NetworkIdentity networkIdentity;
 
-    [SyncVar]
     private int _currentSlide;
 
     public int currentSlide
@@ -79,7 +78,7 @@ public class Slides : NetworkBehaviour
 
     private void Start()
     {
-        networkIdentity = GetComponent<NetworkIdentity>();
+        //networkIdentity = GetComponent<NetworkIdentity>();
 
         currentSlide = 0;
     }
@@ -91,23 +90,23 @@ public class Slides : NetworkBehaviour
             uiOpen = !uiOpen;
         }
         
-        if (Player.localPlayer == null)
+        if (PlayerManager.localPlayer == null)
         {
             return;
         }
 
-        if (isServer)
-        {
-            if (Input.GetKeyDown(KeyCode.LeftArrow))
-            {
-                currentSlide--;
-            }
+        //if (isServer)
+        //{
+        //    if (Input.GetKeyDown(KeyCode.LeftArrow))
+        //    {
+        //        currentSlide--;
+        //    }
 
-            if (Input.GetKeyDown(KeyCode.RightArrow))
-            {
-                currentSlide++;
-            }
-        }
+        //    if (Input.GetKeyDown(KeyCode.RightArrow))
+        //    {
+        //        currentSlide++;
+        //    }
+        //}
 
         material.mainTexture = slideTextures[currentSlide];
     }
